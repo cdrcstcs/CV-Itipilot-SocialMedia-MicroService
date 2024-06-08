@@ -51,7 +51,7 @@ const MyPostWidget = ({ picturePath }) => {
       postData.picturePath = picturePath;
     }
   
-    const response = await fetch(`http://localhost:3001/posts`, {
+    const response = await fetch(`http://localhost:3000/posts`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

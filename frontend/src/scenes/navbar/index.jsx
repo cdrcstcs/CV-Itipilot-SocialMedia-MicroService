@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRef } from "react";
 import {
   Box,
   IconButton,
@@ -31,7 +32,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
+  const hiddenLinkRef = useRef(null);
+  
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
@@ -39,10 +41,11 @@ const Navbar = () => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
   const handleMessageClick = () => {
-    // Redirect to the desired URL
-    navigate("/chatapp/auth/signup");
+    hiddenLinkRef.current.click();
   };
-  
+  const replaceHistory = (url) => {
+    window.history.replaceState({}, document.title, url);
+  };
   const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
@@ -87,7 +90,11 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <Message sx={{ fontSize: "25px" }} onClick={handleMessageClick}/>
+          <Message sx={{ fontSize: "25px" }} onClick={() => {
+              handleMessageClick();
+              replaceHistory(window.location.href);
+          }}/>
+          <a href="http://localhost/chatapp/auth/signup" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
