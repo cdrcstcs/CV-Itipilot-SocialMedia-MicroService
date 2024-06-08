@@ -60,7 +60,7 @@ const Navbar = () => {
             },
           }}
         >
-          PathPilot
+          Itipilot
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween

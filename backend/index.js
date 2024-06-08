@@ -30,18 +30,18 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use("/assets", express.static(path.join(__dirname, "/assets")));
+app.use(express.static(path.join(__dirname, "/assets")));
 
-const MONGO_URL = "mongodb://localhost:27017/mongo-golang";
-const PORT = 3001;
+const MONGO_URL = "mongodb://localhost:27017/social-media";
+const PORT = 3000;
 
 /* FILE STORAGE */
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./assets");
+    cb(null, "assets");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
   },
 });
 const upload = multer({ storage });
