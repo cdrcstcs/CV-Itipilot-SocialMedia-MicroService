@@ -94,7 +94,7 @@ const Navbar = () => {
               handleMessageClick();
               replaceHistory(window.location.href);
           }}/>
-          <a href="http://localhost/chatapp/auth/signup" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
+          <a href="http://localhost:5500/login" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
