@@ -11,6 +11,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+import axios from "axios"; // Import Axios
 
 const PostWidget = ({
   postId,
@@ -35,16 +36,22 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3000/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    try {
+      const response = await axios.patch(
+        `http://localhost:3000/posts/${postId}/like`,
+        { userId: loggedInUserId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(setPost({ post: response.data }));
+    } catch (error) {
+      console.error("Error liking post:", error);
+      // Handle error as needed
+    }
   };
 
   return (

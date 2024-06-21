@@ -22,7 +22,7 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout } from "state";
+import { setMode } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 
@@ -46,8 +46,7 @@ const Navbar = () => {
   const replaceHistory = (url) => {
     window.history.replaceState({}, document.title, url);
   };
-  const fullName = `${user.firstName} ${user.lastName}`;
-
+  const fullName = user.name;
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -80,7 +79,6 @@ const Navbar = () => {
         )}
       </FlexBetween>
 
-      {/* DESKTOP NAV gonna add more functionalities */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
           <IconButton onClick={() => dispatch(setMode())}>
@@ -94,7 +92,7 @@ const Navbar = () => {
               handleMessageClick();
               replaceHistory(window.location.href);
           }}/>
-          <a href="http://localhost:5500/login" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
+          <a href="http://localhost:5500" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
@@ -118,7 +116,6 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -129,8 +126,6 @@ const Navbar = () => {
           <Menu />
         </IconButton>
       )}
-
-      {/* MOBILE NAV */}
       {!isNonMobileScreens && isMobileMenuToggled && (
         <Box
           position="fixed"
@@ -192,9 +187,6 @@ const Navbar = () => {
               >
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
-                </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
-                  Log Out
                 </MenuItem>
               </Select>
             </FormControl>

@@ -4,6 +4,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "state";
+import axios from "axios"; // Import Axios
 
 const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
@@ -12,20 +13,23 @@ const FriendListWidget = ({ userId }) => {
   const friends = useSelector((state) => state.user.friends);
 
   const getFriends = async () => {
-    const response = await fetch(
-      `http://localhost:3000/users/${userId}/friends`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/users/${userId}/friends`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(setFriends({ friends: response.data }));
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+      // Handle error as needed
+    }
   };
 
   useEffect(() => {
     getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId, token]); // Include userId and token in dependency array
 
   return (
     <WidgetWrapper>
@@ -38,15 +42,16 @@ const FriendListWidget = ({ userId }) => {
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {Array.isArray(friends) && friends.map((friend) => (
-          <Friend
-            key={friend._id}
-            friendId={friend._id}
-            name={`${friend.firstName} ${friend.lastName}`}
-            subtitle={friend.occupation}
-            userPicturePath={friend.picturePath}
-          />
-        ))}
+        {Array.isArray(friends) &&
+          friends.map((friend) => (
+            <Friend
+              key={friend._id}
+              friendId={friend._id}
+              name={`${friend.firstName} ${friend.lastName}`}
+              subtitle={friend.occupation}
+              userPicturePath={friend.picturePath}
+            />
+          ))}
       </Box>
     </WidgetWrapper>
   );

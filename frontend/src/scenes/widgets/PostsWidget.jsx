@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
+import axios from "axios"; // Import Axios
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
@@ -9,25 +10,30 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
-    const response = await fetch("http://localhost:3000/posts", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    console.log(data);
-    dispatch(setPosts({ posts: data }));
+    try {
+      const response = await axios.get("http://localhost:3000/posts", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch(setPosts({ posts: response.data }));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      // Handle error as needed
+    }
   };
 
   const getUserPosts = async () => {
-    const response = await fetch(
-      `http://localhost:3000/posts/${userId}/posts`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/posts/${userId}/posts`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(setPosts({ posts: response.data }));
+    } catch (error) {
+      console.error("Error fetching user posts:", error);
+      // Handle error as needed
+    }
   };
 
   useEffect(() => {
@@ -36,37 +42,38 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isProfile, userId, token]); // Include dependencies in useEffect dependency array
 
   return (
     <>
-      {Array.isArray(posts) && posts.map(
-        ({
-          _id,
-          userId,
-          firstName,
-          lastName,
-          description,
-          location,
-          picturePath,
-          userPicturePath,
-          likes,
-          comments,
-        }) => (
-          <PostWidget
-            key={_id}
-            postId={_id}
-            postUserId={userId}
-            name={`${firstName} ${lastName}`}
-            description={description}
-            location={location}
-            picturePath={picturePath}
-            userPicturePath={userPicturePath}
-            likes={likes}
-            comments={comments}
-          />
-        )
-      )}
+      {Array.isArray(posts) &&
+        posts.map(
+          ({
+            _id,
+            userId,
+            firstName,
+            lastName,
+            description,
+            location,
+            picturePath,
+            userPicturePath,
+            likes,
+            comments,
+          }) => (
+            <PostWidget
+              key={_id}
+              postId={_id}
+              postUserId={userId}
+              name={`${firstName} ${lastName}`}
+              description={description}
+              location={location}
+              picturePath={picturePath}
+              userPicturePath={userPicturePath}
+              likes={likes}
+              comments={comments}
+            />
+          )
+        )}
     </>
   );
 };
