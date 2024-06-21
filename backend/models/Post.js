@@ -1,23 +1,11 @@
 import mongoose from "mongoose";
-
 const postSchema = mongoose.Schema(
   {
-    userId: {
-      type: String,
-      required: true,
-    },
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    location: String,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, 
+    longtitude: Number,
+    latitude: Number,
     description: String,
-    picturePath: String,
-    userPicturePath: String,
+    imageId: { type: mongoose.Schema.Types.ObjectId, ref: 'Image' }, 
     likes: {
       type: Map,
       of: Boolean,
@@ -29,7 +17,5 @@ const postSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
 const Post = mongoose.model("Post", postSchema);
-
 export default Post;
