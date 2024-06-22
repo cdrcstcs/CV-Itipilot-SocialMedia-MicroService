@@ -22,7 +22,6 @@ const UserWidget = ({userId}) => {
     phone,
     imageId,
     friends,
-    viewedProfile,
     hotels,
     userType,
     longitude,
@@ -88,12 +87,6 @@ const UserWidget = ({userId}) => {
           <Typography color={medium}>Phone</Typography>
           <Typography color={main} fontWeight="500">
             {phone}
-          </Typography>
-        </FlexBetween>
-        <FlexBetween mb="0.5rem">
-          <Typography color={medium}>Who's viewed your profile</Typography>
-          <Typography color={main} fontWeight="500">
-            {viewedProfile}
           </Typography>
         </FlexBetween>
         <FlexBetween>

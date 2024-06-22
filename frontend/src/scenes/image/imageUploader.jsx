@@ -3,7 +3,6 @@ import axios from 'axios';
 export const ImageUploader = ({ onImageUpload }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewURL, setPreviewURL] = useState('');
-
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedFile(file);
@@ -13,7 +12,6 @@ export const ImageUploader = ({ onImageUpload }) => {
         };
         reader.readAsDataURL(file);
     };
-
     const handleUpload = async (e) => {
         e.preventDefault();
         const formData = new FormData();

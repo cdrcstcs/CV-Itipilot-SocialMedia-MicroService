@@ -17,7 +17,6 @@ import {
   DarkMode,
   LightMode,
   Notifications,
-  Help,
   Menu,
   Close,
 } from "@mui/icons-material";
@@ -25,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
-
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
@@ -33,7 +31,6 @@ const Navbar = () => {
   const user = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const hiddenLinkRef = useRef(null);
-  
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
@@ -78,7 +75,6 @@ const Navbar = () => {
           </FlexBetween>
         )}
       </FlexBetween>
-
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
           <IconButton onClick={() => dispatch(setMode())}>
@@ -94,7 +90,6 @@ const Navbar = () => {
           }}/>
           <a href="http://localhost:5500" ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           <Notifications sx={{ fontSize: "25px" }} />
-          <Help sx={{ fontSize: "25px" }} />
           <FormControl variant="standard" value={fullName}>
             <Select
               value={fullName}
@@ -166,7 +161,6 @@ const Navbar = () => {
             </IconButton>
             <Message sx={{ fontSize: "25px" }} />
             <Notifications sx={{ fontSize: "25px" }} />
-            <Help sx={{ fontSize: "25px" }} />
             <FormControl variant="standard" value={fullName}>
               <Select
                 value={fullName}
@@ -196,5 +190,4 @@ const Navbar = () => {
     </FlexBetween>
   );
 };
-
 export default Navbar;

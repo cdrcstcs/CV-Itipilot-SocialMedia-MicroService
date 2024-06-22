@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema(
     password: String,
     imageId: { type: mongoose.Schema.Types.ObjectId, ref: 'Image' }, 
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    viewedProfile: Number,
     hotels: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Hotel' }], 
     phone: Number,
     userType: String,
