@@ -27,7 +27,7 @@ const UserImage = ({ size = "60px" }) => {
           width={size}
           height={size}
           alt="user"
-          src={`http://localhost:4000/${imagePath}`} // Adjust port if necessary
+          src={`http://localhost:4000/${imagePath}`}
         />
       ) : (
         <div style={{ width: size, height: size, backgroundColor: "#ccc" }} />

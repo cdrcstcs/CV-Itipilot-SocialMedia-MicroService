@@ -7,7 +7,7 @@ import PostsWidget from "scenes/widgets/PostsWidget";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, imageId } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   return (
     <Box>
       <Navbar />
@@ -19,19 +19,19 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id}/>
+          <UserWidget user={user}/>
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget imageId={imageId} />
-          <PostsWidget userId={_id} />
+          <MyPostWidget imageId={user.imageId} longtitude={user.longtitude} latitude={user.latitude} />
+          <PostsWidget userId={user._id} />
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
             <Box m="2rem 0" />
-            <FriendListWidget userId={_id} />
+            <FriendListWidget userId={user._id} />
           </Box>
         )}
       </Box>

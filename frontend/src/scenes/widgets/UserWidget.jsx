@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   ManageAccountsOutlined,
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-const UserWidget = ({userId}) => {
+const UserWidget = ({user}) => {
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
   const {
+    _id,
     name,
     email,
     phone,
@@ -26,13 +26,13 @@ const UserWidget = ({userId}) => {
     userType,
     longitude,
     latitude,
-  } = useSelector((state) => state.user);
+  } = user;
   return (
     <WidgetWrapper>
       <FlexBetween
         gap="0.5rem"
         pb="1.1rem"
-        onClick={() => navigate(`/profile/${userId}`)}
+        onClick={() => navigate(`/profile/${_id}`)}
       >
         <FlexBetween gap="1rem">
           <UserImage image={imageId} />

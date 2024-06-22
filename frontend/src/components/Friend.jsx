@@ -29,8 +29,8 @@ const Friend = ({ friendId, longtitude, latitude }) => {
     const fetchFriendDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/users/${friendId}`);
-        const { firstName, lastName } = response.data;
-        setFriendName(`${firstName} ${lastName}`);
+        const { name } = response.data;
+        setFriendName(name);
       } catch (error) {
         console.error("Error fetching friend details:", error);
       }
