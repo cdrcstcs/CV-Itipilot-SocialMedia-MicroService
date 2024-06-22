@@ -10,7 +10,6 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-
 const UserWidget = ({userId}) => {
   const { palette } = useTheme();
   const navigate = useNavigate();
@@ -29,7 +28,6 @@ const UserWidget = ({userId}) => {
     longitude,
     latitude,
   } = useSelector((state) => state.user);
-
   return (
     <WidgetWrapper>
       <FlexBetween
@@ -109,5 +107,4 @@ const UserWidget = ({userId}) => {
     </WidgetWrapper>
   );
 };
-
 export default UserWidget;

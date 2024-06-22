@@ -1,6 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Navbar from "scenes/navbar";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
@@ -12,27 +11,20 @@ import axios from "axios"; // Import Axios
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
-  const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   const getUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/users/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(`http://localhost:3000/users/${userId}`);
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user:", error);
-      // Handle error as needed
     }
   };
-
   useEffect(() => {
     getUser();
-  }, [userId, token]); // Include userId and token in dependency array
-
+  }, [userId]);
   if (!user) return null;
-
   return (
     <Box>
       <Navbar />
@@ -60,5 +52,4 @@ const ProfilePage = () => {
     </Box>
   );
 };
-
 export default ProfilePage;

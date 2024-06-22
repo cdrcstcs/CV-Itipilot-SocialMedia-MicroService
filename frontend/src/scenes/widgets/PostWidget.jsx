@@ -11,8 +11,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
-import axios from "axios"; // Import Axios
-
+import axios from "axios"; 
 const PostWidget = ({
   postId,
   postUserId,
@@ -26,11 +25,9 @@ const PostWidget = ({
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
-
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
@@ -39,21 +36,12 @@ const PostWidget = ({
     try {
       const response = await axios.patch(
         `http://localhost:3000/posts/${postId}/like`,
-        { userId: loggedInUserId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+        { userId: loggedInUserId });
       dispatch(setPost({ post: response.data }));
     } catch (error) {
       console.error("Error liking post:", error);
-      // Handle error as needed
     }
   };
-
   return (
     <WidgetWrapper m="2rem 0">
       <Friend

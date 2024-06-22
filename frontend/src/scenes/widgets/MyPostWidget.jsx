@@ -10,8 +10,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
-import axios from "axios"; // Import Axios
-
+import axios from "axios"; 
 const MyPostWidget = ({ imageId }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState("");
@@ -30,7 +29,6 @@ const MyPostWidget = ({ imageId }) => {
       console.error("Error posting:", error);
     }
   };
-
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
@@ -64,5 +62,4 @@ const MyPostWidget = ({ imageId }) => {
     </WidgetWrapper>
   );
 };
-
 export default MyPostWidget;

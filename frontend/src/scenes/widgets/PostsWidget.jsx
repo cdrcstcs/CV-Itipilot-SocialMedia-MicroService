@@ -2,12 +2,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
-import axios from "axios"; // Import Axios
-
+import axios from "axios";
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts) || [];
-
   const getPosts = async () => {
     try {
       const response = await axios.get("http://localhost:3000/posts");
@@ -16,7 +14,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       console.error("Error fetching posts:", error);
     }
   };
-
   const getUserPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/posts/${userId}/posts`);
@@ -25,7 +22,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       console.error("Error fetching user posts:", error);
     }
   };
-
   useEffect(() => {
     if (isProfile) {
       getUserPosts();
@@ -33,7 +29,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getPosts();
     }
   }, [isProfile, userId]); 
-
   return (
     <>
       {Array.isArray(posts) &&
@@ -67,5 +62,4 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     </>
   );
 };
-
 export default PostsWidget;
