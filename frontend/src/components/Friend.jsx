@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -12,7 +12,8 @@ import { setFriends } from "state";
 import axios from "axios"; // Import Axios
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-const Friend = ({ friendId, name, subtitle}) => {
+import { useRef } from "react";
+const Friend = ({ friendId, longtitude, latitude }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -21,16 +22,37 @@ const Friend = ({ friendId, name, subtitle}) => {
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
-  const medium = palette.neutral.medium;
+  const [friendName, setFriendName] = useState("");
   const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
+  const hiddenLinkRef = useRef(null);
+  useEffect(() => {
+    const fetchFriendDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/users/${friendId}`);
+        const { firstName, lastName } = response.data;
+        setFriendName(`${firstName} ${lastName}`);
+      } catch (error) {
+        console.error("Error fetching friend details:", error);
+      }
+    };
+
+    fetchFriendDetails();
+  }, [friendId]);
   const patchFriend = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`,{});
+      const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`, {});
       dispatch(setFriends({ friends: response.data }));
     } catch (error) {
       console.error("Error patching friend:", error);
     }
   };
+  const handleMessageClick = () => {
+    hiddenLinkRef.current.click();
+  };
+  const replaceHistory = (url) => {
+    window.history.replaceState({}, document.title, url);
+  };
+  const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
@@ -41,21 +63,18 @@ const Friend = ({ friendId, name, subtitle}) => {
             navigate(0);
           }}
         >
+          <Typography color={main}>{friendName}</Typography>
           <Typography
-            color={main}
-            variant="h5"
-            fontWeight="500"
-            sx={{
-              "&:hover": {
-                color: palette.primary.light,
-                cursor: "pointer",
-              },
-            }}
+            variant="body2"
+            color="primary"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              handleMessageClick();
+              replaceHistory(window.location.href);
+          }}
           >
-            {name}
-          </Typography>
-          <Typography color={medium} fontSize="0.75rem">
-            {subtitle}
+            Coordinates: {latitude}, {longtitude} (Click to View)
+            <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           </Typography>
         </Box>
       </FlexBetween>
