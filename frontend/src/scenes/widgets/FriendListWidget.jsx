@@ -9,27 +9,21 @@ import axios from "axios"; // Import Axios
 const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
-  const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
 
   const getFriends = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/users/${userId}/friends`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
       );
       dispatch(setFriends({ friends: response.data }));
     } catch (error) {
       console.error("Error fetching friends:", error);
-      // Handle error as needed
     }
   };
-
   useEffect(() => {
     getFriends();
-  }, [userId, token]); // Include userId and token in dependency array
+  }, [userId]); // Include userId and token in dependency array
 
   return (
     <WidgetWrapper>

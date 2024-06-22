@@ -7,32 +7,22 @@ import axios from "axios"; // Import Axios
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts) || [];
-  const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/posts", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get("http://localhost:3000/posts");
       dispatch(setPosts({ posts: response.data }));
     } catch (error) {
       console.error("Error fetching posts:", error);
-      // Handle error as needed
     }
   };
 
   const getUserPosts = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/posts/${userId}/posts`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get(`http://localhost:3000/posts/${userId}/posts`);
       dispatch(setPosts({ posts: response.data }));
     } catch (error) {
       console.error("Error fetching user posts:", error);
-      // Handle error as needed
     }
   };
 
@@ -42,7 +32,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, [isProfile, userId, token]); // Include dependencies in useEffect dependency array
+  }, [isProfile, userId]); 
 
   return (
     <>

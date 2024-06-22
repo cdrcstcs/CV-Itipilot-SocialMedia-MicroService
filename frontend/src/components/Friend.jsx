@@ -12,12 +12,10 @@ import { setFriends } from "state";
 import axios from "axios"; // Import Axios
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -25,30 +23,18 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
   const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
-
   const patchFriend = async () => {
     try {
-      const response = await axios.patch(
-        `http://localhost:3000/users/${_id}/${friendId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`,{});
       dispatch(setFriends({ friends: response.data }));
     } catch (error) {
       console.error("Error patching friend:", error);
-      // Handle error as needed
     }
   };
-
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage image={userPicturePath} size="55px" />
+        <UserImage size="55px" />
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);
@@ -86,5 +72,4 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     </FlexBetween>
   );
 };
-
 export default Friend;

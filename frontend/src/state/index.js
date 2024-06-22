@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useAuthContext } from "scenes/context/UserContext";
+const {userDataFetch} = useAuthContext();
 const initialState = {
-  mode: "dark",
+  mode: "light",
+  user: userDataFetch,
   posts: [],
 };
 export const authSlice = createSlice({
@@ -29,5 +32,6 @@ export const authSlice = createSlice({
     },
   },
 });
-export const { setMode, setFriends, setPosts, setPost } = authSlice.actions;
+export const { setMode, setFriends, setPosts, setPost } =
+  authSlice.actions;
 export default authSlice.reducer;

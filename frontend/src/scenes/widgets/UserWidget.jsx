@@ -10,47 +10,25 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-import axios from "axios"; // Import Axios
 
-const UserWidget = ({ userId, imageId }) => {
-  const [user, setUser] = useState(null);
+const UserWidget = ({userId}) => {
   const { palette } = useTheme();
   const navigate = useNavigate();
-  const token = useSelector((state) => state.token);
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(response.data);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    getUser();
-  }, [userId, token]);
-
-  if (!user) {
-    return null;
-  }
-
   const {
     name,
     email,
     phone,
+    imageId,
     friends,
     viewedProfile,
     hotels,
     userType,
     longitude,
     latitude,
-  } = user;
+  } = useSelector((state) => state.user);
 
   return (
     <WidgetWrapper>

@@ -12,40 +12,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import axios from "axios"; // Import Axios
 
-const MyPostWidget = ({ picturePath }) => {
+const MyPostWidget = ({ imageId }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
-
   const handlePost = async () => {
     try {
       const postData = {
         userId: _id,
         description: post,
       };
-      if (picturePath) {
-        postData.picturePath = picturePath;
-      }
-      const response = await axios.post(`http://localhost:3000/posts`, postData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Specify content type as JSON
-        },
-      });
+      const response = await axios.post(`http://localhost:3000/posts`, postData);
       dispatch(setPosts({ posts: response.data }));
       setPost("");
     } catch (error) {
       console.error("Error posting:", error);
-      // Handle error as needed
     }
   };
 
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <UserImage imageId={imageId} />
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
