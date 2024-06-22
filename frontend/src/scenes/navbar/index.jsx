@@ -14,27 +14,21 @@ import {
 import {
   Search,
   Message,
-  DarkMode,
-  LightMode,
   Notifications,
   Menu,
   Close,
 } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { setMode } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import { useAuthContext } from "scenes/context/UserContext";
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {userDataFetch} = useAuthContext();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const hiddenLinkRef = useRef(null);
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
-  const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
@@ -78,13 +72,6 @@ const Navbar = () => {
       </FlexBetween>
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <IconButton onClick={() => dispatch(setMode())}>
-            {theme.palette.mode === "dark" ? (
-              <DarkMode sx={{ fontSize: "25px" }} />
-            ) : (
-              <LightMode sx={{ color: dark, fontSize: "25px" }} />
-            )}
-          </IconButton>
           <Message sx={{ fontSize: "25px" }} onClick={() => {
               handleMessageClick();
               replaceHistory(window.location.href);
@@ -150,16 +137,6 @@ const Navbar = () => {
             alignItems="center"
             gap="3rem"
           >
-            <IconButton
-              onClick={() => dispatch(setMode())}
-              sx={{ fontSize: "25px" }}
-            >
-              {theme.palette.mode === "dark" ? (
-                <DarkMode sx={{ fontSize: "25px" }} />
-              ) : (
-                <LightMode sx={{ color: dark, fontSize: "25px" }} />
-              )}
-            </IconButton>
             <Message sx={{ fontSize: "25px" }} />
             <Notifications sx={{ fontSize: "25px" }} />
             <FormControl variant="standard" value={fullName}>

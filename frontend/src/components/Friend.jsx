@@ -76,16 +76,18 @@ const Friend = ({ friendId, longtitude, latitude }) => {
           </Typography>
         </Box>
       </FlexBetween>
+      {friendId==_id? null :
       <IconButton
-        onClick={patchFriend}
-        sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        )}
-      </IconButton>
+      onClick={patchFriend}
+      sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+    >
+      {isFriend ? (
+        <PersonRemoveOutlined sx={{ color: primaryDark }} />
+      ) : (
+        <PersonAddOutlined sx={{ color: primaryDark }} />
+      )}
+    </IconButton>
+      }
     </FlexBetween>
   );
 };

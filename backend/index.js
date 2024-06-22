@@ -29,6 +29,7 @@ app.get('/images/:id', getImageById);
 const jwtSecret = 'fasefraw4r5r3wq45wdfgw34twdfg';
 async function verifyToken(req, res) {
     try {
+        console.log(req.body);
         const token = req.body.token; 
         jwt.verify(token, jwtSecret, {}, (err, userData) => {
             if (err) {

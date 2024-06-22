@@ -13,6 +13,7 @@ function App() {
   if (!userDataFetch){
     return null;
   }
+  console.log(userDataFetch);
   return (
     <div className="app">
       <BrowserRouter>

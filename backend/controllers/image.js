@@ -17,6 +17,7 @@ async function uploadImage(req, res) {
 async function getImageById(req, res) {
     try {
         const image = await Image.findById(req.params.id);
+        console.log(image);
         if (!image) {
         return res.status(404).send('Image not found');
         }

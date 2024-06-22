@@ -40,7 +40,20 @@ export const getFeedPosts = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const getUserPosts = async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    // Find all posts where userId matches
+    const posts = await Post.find({ userId });
+
+    // Return the posts as JSON response
+    res.status(200).json(posts);
+  } catch (err) {
+    // Handle errors
+    res.status(404).json({ message: err.message });
+  }
+};
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;

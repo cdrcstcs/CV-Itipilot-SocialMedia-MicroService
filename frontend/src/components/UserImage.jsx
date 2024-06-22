@@ -11,7 +11,9 @@ const UserImage = ({ size = "60px" }) => {
       try {
         const response = await axios.get(`http://localhost:3000/images/${imageId}`);
         const data = response.data;
-        setImagePath(data.path); // Assuming the API returns an object with a `path` property
+        console.log(data);
+        console.log('hh');
+        setImagePath(data.image); // Assuming the API returns an object with a `path` property
       } catch (error) {
         console.error("Error fetching user image:", error);
       }
