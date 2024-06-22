@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import axios from "axios";
+import { useAuthContext } from "scenes/context/UserContext";
 const UserImage = ({ size = "60px" }) => {
   const [imagePath, setImagePath] = useState(null);
-  const imageId = useSelector((state) => state.user.imageId);
+  const {userDataFetch} = useAuthContext();
+  const imageId = userDataFetch.imageId;
   useEffect(() => {
     const fetchImage = async () => {
       try {

@@ -8,16 +8,15 @@ import FlexBetween from "components/FlexBetween";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
 import { ImageUploader } from "scenes/image/imageUploader";
 import axios from "axios"; 
+import { useAuthContext } from "scenes/context/UserContext";
 const MyPostWidget = ({ longtitude, latitude }) => {
-  const dispatch = useDispatch();
   const [post, setPost] = useState("");
   const [postimageid, setpostimageid] = useState(null);
   const { palette } = useTheme();
-  const { _id } = useSelector((state) => state.user);
+  const {userDataFetch} = useAuthContext();
+  const _id = userDataFetch._id;
   const onimg = (imgId) =>{
     setpostimageid(imgId);
   }
@@ -31,7 +30,7 @@ const MyPostWidget = ({ longtitude, latitude }) => {
         imageId: postimageid
       };
       const response = await axios.post(`http://localhost:3000/posts`, postData);
-      dispatch(setPosts({ posts: response.data }));
+      console.log(response.data);
       setPost("");
     } catch (error) {
       console.error("Error posting:", error);

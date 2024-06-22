@@ -7,7 +7,7 @@ export const getUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const { _id, name, email, imageId, friends, hotels, phone, userType, longitude, latitude } = user;
+    const { _id, name, email, imageId, friends, hotels, phone, userType, longtitude, latitude } = user;
     res.status(200).json({
       _id,
       name,
@@ -17,7 +17,7 @@ export const getUser = async (req, res) => {
       hotels,
       phone,
       userType,
-      longitude,
+      longtitude,
       latitude,
     });
   } catch (err) {
@@ -27,12 +27,12 @@ export const getUser = async (req, res) => {
 export const getUserFriends = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id).populate('friends', '_id firstName lastName occupation location picturePath');
+    const user = await User.findById(id).populate('friends', ' _id name email imageId friends hotels phone userType longtitude latitude ');
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const formattedFriends = user.friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => {
-      return { _id, firstName, lastName, occupation, location, picturePath };
+    const formattedFriends = user.friends.map(({ _id, name, email, imageId, friends, hotels, phone, userType, longtitude, latitude }) => {
+      return { _id, name, email, imageId, friends, hotels, phone, userType, longtitude, latitude };
     });
     res.status(200).json(formattedFriends);
   } catch (err) {
@@ -60,13 +60,7 @@ export const addRemoveFriend = async (req, res) => {
     await user.save();
     await friend.save();
 
-    // Fetch updated friends list for the user
-    const updatedUser = await User.findById(id).populate('friends', '_id firstName lastName occupation location picturePath');
-    const formattedFriends = updatedUser.friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => {
-      return { _id, firstName, lastName, occupation, location, picturePath };
-    });
-
-    res.status(200).json(formattedFriends);
+    res.status(200).json("ok");
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

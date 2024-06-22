@@ -6,18 +6,17 @@ import {
   useTheme,
 } from "@mui/material";
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setFriends } from "state";
 import axios from "axios"; // Import Axios
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import { useRef } from "react";
+import { useAuthContext } from "scenes/context/UserContext";
 const Friend = ({ friendId, longtitude, latitude }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { _id } = useSelector((state) => state.user);
-  const friends = useSelector((state) => state.user.friends);
+  const {userDataFetch} = useAuthContext();
+  const _id = userDataFetch._id;
+  const friends = userDataFetch.friends;
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -35,18 +34,17 @@ const Friend = ({ friendId, longtitude, latitude }) => {
         console.error("Error fetching friend details:", error);
       }
     };
-
     fetchFriendDetails();
   }, [friendId]);
   const patchFriend = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`, {});
-      dispatch(setFriends({ friends: response.data }));
+      console.log(response.data);
     } catch (error) {
       console.error("Error patching friend:", error);
     }
   };
-  const handleMessageClick = () => {
+  const handleLocationClick = () => {
     hiddenLinkRef.current.click();
   };
   const replaceHistory = (url) => {
@@ -69,7 +67,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
             color="primary"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              handleMessageClick();
+              handleLocationClick();
               replaceHistory(window.location.href);
           }}
           >

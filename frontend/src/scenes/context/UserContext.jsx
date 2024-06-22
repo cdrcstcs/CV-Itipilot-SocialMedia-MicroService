@@ -12,6 +12,7 @@ function getCookie(name) {
 export const AuthContextProvider = ({ children }) => {
     const [userDataFetch, setUserDataFetch] = useState(null); // Use null to distinguish between initial load and no data
     const token = getCookie('usertoken');
+    console.log(token);
     useEffect(() => {
         const getUserData = async () => {
             try {
@@ -28,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
         } else {
             setUserDataFetch(null); // Reset state or handle appropriately
         }
-    }, [token]); // Only run this effect when token changes
+    }, [token, userDataFetch]); // Only run this effect when token changes
     return (
         <AuthContext.Provider value={{ userDataFetch }}>
             {children}

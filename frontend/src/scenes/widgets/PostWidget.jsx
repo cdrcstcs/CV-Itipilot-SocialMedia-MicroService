@@ -7,10 +7,9 @@ import { IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "state";
 import axios from "axios"; 
 import { SingleImage } from "scenes/image/imagePage";
+import { useAuthContext } from "scenes/context/UserContext";
 const PostWidget = ({
   postId,
   postUserId,
@@ -20,8 +19,8 @@ const PostWidget = ({
   imageId,
   likes,
 }) => {
-  const dispatch = useDispatch();
-  const loggedInUserId = useSelector((state) => state.user._id);
+  const {userDataFetch} = useAuthContext();
+  const loggedInUserId = userDataFetch._id;
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const { palette } = useTheme();
@@ -29,11 +28,8 @@ const PostWidget = ({
   const primary = palette.primary.main;
   const patchLike = async () => {
     try {
-      const response = await axios.patch(
-        `http://localhost:3000/posts/${postId}/like`,
-        { userId: loggedInUserId }
-      );
-      dispatch(setPost({ post: response.data }));
+      const response = await axios.patch(`http://localhost:3000/posts/${postId}/like`,{ userId: loggedInUserId });
+      console.log(response.data);
     } catch (error) {
       console.error("Error liking post:", error);
     }

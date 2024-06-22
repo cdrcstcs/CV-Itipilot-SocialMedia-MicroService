@@ -2,18 +2,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "scenes/homePage";
 import ProfilePage from "scenes/profilePage";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { useAuthContext } from "scenes/context/UserContext";
 function App() {
   const {userDataFetch} = useAuthContext();
+  const mode = "dark";
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   if (!userDataFetch){
     return null;
   }
-  const mode = useSelector((state) => state.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <div className="app">
       <BrowserRouter>
@@ -21,7 +20,7 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route
-              path="/home"
+              path="/"
               element={<HomePage />}
             />
             <Route

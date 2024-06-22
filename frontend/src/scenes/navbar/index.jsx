@@ -20,15 +20,16 @@ import {
   Menu,
   Close,
 } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setMode } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
+import { useAuthContext } from "scenes/context/UserContext";
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const {userDataFetch} = useAuthContext();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const hiddenLinkRef = useRef(null);
   const theme = useTheme();
@@ -43,7 +44,7 @@ const Navbar = () => {
   const replaceHistory = (url) => {
     window.history.replaceState({}, document.title, url);
   };
-  const fullName = user.name;
+  const fullName = userDataFetch.name;
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -51,7 +52,7 @@ const Navbar = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
           sx={{
             "&:hover": {
               color: primaryLight,

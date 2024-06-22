@@ -2,7 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 
 export const createPost = async (req, res) => {
-  const { userId, description, picturePath } = req.body;
+  const { userId, description, longtitude, latitude, imageId } = req.body;
   
   try {
     if (!userId || !description) {
@@ -17,9 +17,11 @@ export const createPost = async (req, res) => {
     const newPost = new Post({
       userId,
       description,
+      longtitude,
+      latitude,
+      imageId,
       userPicturePath: user.picturePath,
       likes: new Map(),
-      picturePath,
     });
 
     await newPost.save();
@@ -29,6 +31,7 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 export const getFeedPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -37,15 +40,7 @@ export const getFeedPosts = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-export const getUserPosts = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const posts = await Post.find({ userId });
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
-};
+
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;

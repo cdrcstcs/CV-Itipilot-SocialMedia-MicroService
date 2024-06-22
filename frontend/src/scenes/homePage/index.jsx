@@ -1,13 +1,13 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { useSelector } from "react-redux";
 import Navbar from "scenes/navbar";
 import UserWidget from "scenes/widgets/UserWidget";
 import MyPostWidget from "scenes/widgets/MyPostWidget";
 import PostsWidget from "scenes/widgets/PostsWidget";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
+import { useAuthContext } from "scenes/context/UserContext";
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const user = useSelector((state) => state.user);
+  const {userDataFetch} = useAuthContext();
   return (
     <Box>
       <Navbar />
@@ -19,19 +19,19 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget user={user}/>
+          <UserWidget user={userDataFetch}/>
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget imageId={user.imageId} longtitude={user.longtitude} latitude={user.latitude} />
-          <PostsWidget userId={user._id} />
+          <MyPostWidget imageId={userDataFetch.imageId} longtitude={userDataFetch.longtitude} latitude={userDataFetch.latitude} />
+          <PostsWidget userId={userDataFetch._id} />
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
             <Box m="2rem 0" />
-            <FriendListWidget userId={user._id} />
+            <FriendListWidget userId={userDataFetch._id} />
           </Box>
         )}
       </Box>

@@ -4,6 +4,7 @@ import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 import {
   ManageAccountsOutlined,
   LocationOnOutlined,
@@ -20,13 +21,20 @@ const UserWidget = ({user}) => {
     name,
     email,
     phone,
-    imageId,
     friends,
     hotels,
     userType,
-    longitude,
+    longtitude,
     latitude,
   } = user;
+  const hiddenLinkRef = useRef(null);
+  const handleLocationClick = () => {
+    hiddenLinkRef.current.click();
+  };
+  const replaceHistory = (url) => {
+    window.history.replaceState({}, document.title, url);
+  };
+  const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <WidgetWrapper>
       <FlexBetween
@@ -35,7 +43,7 @@ const UserWidget = ({user}) => {
         onClick={() => navigate(`/profile/${_id}`)}
       >
         <FlexBetween gap="1rem">
-          <UserImage image={imageId} />
+          <UserImage/>
           <Box>
             <Typography
               variant="h4"
@@ -64,7 +72,18 @@ const UserWidget = ({user}) => {
           mb="0.5rem"
         >
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{latitude}, {longitude}</Typography>
+          <Typography
+            variant="body2"
+            color="primary"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              handleLocationClick();
+              replaceHistory(window.location.href);
+          }}
+          >
+            Coordinates: {latitude}, {longtitude} (Click to View)
+            <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
+          </Typography>        
         </Box>
         <Box
           display="flex"
