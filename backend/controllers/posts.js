@@ -19,7 +19,6 @@ export const createPost = async (req, res) => {
       description,
       userPicturePath: user.picturePath,
       likes: new Map(),
-      comments: [],
       picturePath,
     });
 
