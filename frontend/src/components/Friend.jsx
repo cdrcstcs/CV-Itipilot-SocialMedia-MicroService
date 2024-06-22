@@ -62,6 +62,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
           }}
         >
           <Typography color={main}>{friendName}</Typography>
+          {longtitude? 
           <Typography
             variant="body2"
             color="primary"
@@ -74,6 +75,8 @@ const Friend = ({ friendId, longtitude, latitude }) => {
             Coordinates: {latitude}, {longtitude} (Click to View)
             <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           </Typography>
+          : null
+          }
         </Box>
       </FlexBetween>
       {friendId==_id? null :

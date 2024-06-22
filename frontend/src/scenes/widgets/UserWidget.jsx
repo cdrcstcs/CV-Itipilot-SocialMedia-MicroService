@@ -72,7 +72,7 @@ const UserWidget = ({user}) => {
           mb="0.5rem"
         >
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-          <Typography
+          {longtitude? <Typography
             variant="body2"
             color="primary"
             style={{ cursor: "pointer" }}
@@ -83,7 +83,7 @@ const UserWidget = ({user}) => {
           >
             Coordinates: {latitude}, {longtitude} (Click to View)
             <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
-          </Typography>        
+          </Typography> : null}        
         </Box>
         <Box
           display="flex"
