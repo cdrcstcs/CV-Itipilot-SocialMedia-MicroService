@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
-
 export const ImageUploader = ({ onImageUpload }) => {
-    const [previewURL, setPreviewURL] = useState('');
-
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
 
@@ -18,18 +15,20 @@ export const ImageUploader = ({ onImageUpload }) => {
         } catch (error) {
             console.error('Error uploading image: ', error);
         }
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            setPreviewURL(reader.result);
-        };
-        reader.readAsDataURL(file);
     };
 
     return (
         <div>
-            <input type="file" onChange={handleFileChange} />
-            {previewURL && <img src={previewURL} alt="Preview" style={{ width: '100%', marginTop: '10px' }} />}
+            {/* Customize the input element to hide the filename */}
+            <label htmlFor="upload-input" style={{ cursor: 'pointer', backgroundColor:'black', color:'white', borderRadius:'20px', fontSize:'16px', fontWeight:'200px',width:'100px' }}>
+                Upload 
+            </label>
+            <input
+                id="upload-input"
+                type="file"
+                onChange={handleFileChange}
+                style={{ display: 'none' }} // Hide the input element
+            />
         </div>
     );
 };

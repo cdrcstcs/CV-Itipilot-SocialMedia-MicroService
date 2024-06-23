@@ -13,6 +13,7 @@ import axios from "axios";
 import { useAuthContext } from "scenes/context/UserContext";
 import { useDispatch } from "react-redux";
 import { setPosts } from "state";
+import { SingleImage } from "scenes/image/imagePage";
 const MyPostWidget = ({ longtitude, latitude }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState("");
@@ -34,6 +35,8 @@ const MyPostWidget = ({ longtitude, latitude }) => {
       };
       const response = await axios.post(`http://localhost:3000/posts`, postData);
       dispatch(setPosts({ posts:response.data }));
+      setPost("");
+      setpostimageid(null);
     } catch (error) {
       console.error("Error posting:", error);
     }
@@ -56,6 +59,7 @@ const MyPostWidget = ({ longtitude, latitude }) => {
       </FlexBetween>
       <Divider sx={{ margin: "1.25rem 0" }} />
       <ImageUploader onImageUpload={onimg}></ImageUploader>
+      {postimageid?<SingleImage imageId={postimageid}></SingleImage>: null}
       <Divider sx={{ margin: "1.25rem 0" }} />
       <FlexBetween>
         <Button
