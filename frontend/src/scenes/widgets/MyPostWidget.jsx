@@ -11,7 +11,10 @@ import { useState } from "react";
 import { ImageUploader } from "scenes/image/imageUploader";
 import axios from "axios"; 
 import { useAuthContext } from "scenes/context/UserContext";
+import { useDispatch } from "react-redux";
+import { setPosts } from "state";
 const MyPostWidget = ({ longtitude, latitude }) => {
+  const dispatch = useDispatch();
   const [post, setPost] = useState("");
   const [postimageid, setpostimageid] = useState(null);
   const { palette } = useTheme();
@@ -30,8 +33,7 @@ const MyPostWidget = ({ longtitude, latitude }) => {
         imageId: postimageid
       };
       const response = await axios.post(`http://localhost:3000/posts`, postData);
-      console.log(response.data);
-      setPost("");
+      dispatch(setPosts({ posts:response.data }));
     } catch (error) {
       console.error("Error posting:", error);
     }

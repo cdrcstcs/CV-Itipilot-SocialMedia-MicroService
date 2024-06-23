@@ -10,6 +10,8 @@ import WidgetWrapper from "components/WidgetWrapper";
 import axios from "axios"; 
 import { SingleImage } from "scenes/image/imagePage";
 import { useAuthContext } from "scenes/context/UserContext";
+import { useDispatch } from "react-redux";
+import { setPost } from "state";
 const PostWidget = ({
   postId,
   postUserId,
@@ -19,6 +21,7 @@ const PostWidget = ({
   imageId,
   likes,
 }) => {
+  const dispatch = useDispatch();
   const {userDataFetch} = useAuthContext();
   const loggedInUserId = userDataFetch._id;
   const isLiked = Boolean(likes[loggedInUserId]);
@@ -29,7 +32,7 @@ const PostWidget = ({
   const patchLike = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/posts/${postId}/like`,{ userId: loggedInUserId });
-      console.log(response.data);
+      dispatch(setPost({ post: response.data }));
     } catch (error) {
       console.error("Error liking post:", error);
     }

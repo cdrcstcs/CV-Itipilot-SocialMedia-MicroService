@@ -7,16 +7,18 @@ import {
 } from "@mui/material";
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
+import axios from "axios"; 
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setFriends } from "state";
 import { useAuthContext } from "scenes/context/UserContext";
 const Friend = ({ friendId, longtitude, latitude }) => {
   const navigate = useNavigate();
   const {userDataFetch} = useAuthContext();
   const _id = userDataFetch._id;
-  const friends = userDataFetch.friends;
+  const friends = useSelector((state) => state.friends);
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
@@ -24,6 +26,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   const [friendName, setFriendName] = useState("");
   const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
   const hiddenLinkRef = useRef(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchFriendDetails = async () => {
       try {
@@ -39,7 +42,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   const patchFriend = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`, {});
-      console.log(response.data);
+      dispatch(setFriends({ friends: response.data }));
     } catch (error) {
       console.error("Error patching friend:", error);
     }
