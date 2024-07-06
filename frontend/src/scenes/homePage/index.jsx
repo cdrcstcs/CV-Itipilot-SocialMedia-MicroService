@@ -6,6 +6,7 @@ import PostsWidget from "scenes/widgets/PostsWidget";
 import FriendListWidget from "scenes/widgets/FriendListWidget";
 import { useAuthContext } from "scenes/context/UserContext";
 const HomePage = () => {
+  console.log('hello');
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const {userDataFetch} = useAuthContext();
   return (

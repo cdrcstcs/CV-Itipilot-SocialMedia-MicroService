@@ -1,11 +1,10 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuthContext } from "scenes/context/UserContext";
-const UserImage = ({ size = "60px" }) => {
+// import { useAuthContext } from "scenes/context/UserContext";
+const UserImage = ({ imageId, size = "60px" }) => {
+  // console.log(imageId);
   const [imagePath, setImagePath] = useState(null);
-  const {userDataFetch} = useAuthContext();
-  const imageId = userDataFetch.imageId;
   useEffect(() => {
     const fetchImage = async () => {
       try {
@@ -30,7 +29,7 @@ const UserImage = ({ size = "60px" }) => {
           width={size}
           height={size}
           alt="user"
-          src={`http://localhost:4000/${imagePath}`}
+          src={`http://localhost:3000/${imagePath}`}
         />
       ) : (
         <div style={{ width: size, height: size, backgroundColor: "#ccc" }} />

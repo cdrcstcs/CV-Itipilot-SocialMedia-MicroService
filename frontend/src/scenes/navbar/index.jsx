@@ -22,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import { useAuthContext } from "scenes/context/UserContext";
 const Navbar = () => {
+  console.log('hello');
+
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const navigate = useNavigate();
   const {userDataFetch} = useAuthContext();

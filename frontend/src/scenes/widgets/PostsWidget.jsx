@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PostWidget from "./PostWidget";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 const PostsWidget = ({ userId, isProfile = false }) => {
+  console.log('hello');
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
+  const [posts, setPostsState] = useState([]);
   const getPosts = async () => {
     try {
       const response = await axios.get("http://localhost:3000/posts");
       dispatch(setPosts({ posts: response.data }));
+      setPostsState(response.data);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -18,6 +20,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     try {
       const response = await axios.get(`http://localhost:3000/posts/${userId}/posts`);
       dispatch(setPosts({ posts: response.data }));
+      setPostsState(response.data);
     } catch (error) {
       console.error("Error fetching user posts:", error);
     }
@@ -28,7 +31,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, [isProfile, userId, posts]); 
+  }, [isProfile, userId]); 
   return (
     <>
       {Array.isArray(posts) &&

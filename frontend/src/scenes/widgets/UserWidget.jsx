@@ -11,6 +11,7 @@ import {
   WorkOutlineOutlined,
 } from "@mui/icons-material";
 const UserWidget = ({user}) => {
+  console.log('hello');
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dark = palette.neutral.dark;
@@ -24,6 +25,7 @@ const UserWidget = ({user}) => {
     friends,
     hotels,
     userType,
+    imageId,
     longtitude,
     latitude,
   } = user;
@@ -43,7 +45,7 @@ const UserWidget = ({user}) => {
         onClick={() => navigate(`/profile/${_id}`)}
       >
         <FlexBetween gap="1rem">
-          <UserImage/>
+          <UserImage imageId={imageId}/>
           <Box>
             <Typography
               variant="h4"

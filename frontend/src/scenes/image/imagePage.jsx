@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 export const SingleImage = ({imageId}) => {
+  // console.log('hello');
+
   const [image, setImage] = useState(null);
   const fetchImage = async () => {
       try {

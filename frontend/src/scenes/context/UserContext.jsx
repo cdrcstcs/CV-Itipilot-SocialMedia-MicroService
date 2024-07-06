@@ -12,6 +12,8 @@ export const useAuthContext = () => {
 // }
 export const AuthContextProvider = ({ children }) => {
   const [userDataFetch, setUserDataFetch] = useState(null);
+  console.log('hello');
+
   // const [previousUserData, setPreviousUserData] = useState(null);
   // const token = getCookie('usertoken');
   // useEffect(() => {
@@ -36,13 +38,15 @@ export const AuthContextProvider = ({ children }) => {
   //   };
   //   getUserData(); // Call getUserData immediately when token changes or on component mount
   // }, [token, previousUserData]); // Depend on token and previousUserData changes
+  const once = true;
   useEffect(()=>{
     const getUserData = async () => {
       const userResponse = await axios.get(`http://localhost:3000/users`);
       setUserDataFetch(userResponse.data);
+      console.log('hello');
     }
     getUserData();
-  },[]);
+  },[once]);
   return (
     <AuthContext.Provider value={{ userDataFetch }}>
       {children}

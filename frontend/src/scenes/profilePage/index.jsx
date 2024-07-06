@@ -9,6 +9,8 @@ import UserWidget from "scenes/widgets/UserWidget";
 import axios from "axios"; // Import Axios
 
 const ProfilePage = () => {
+  console.log('hello');
+
   const [user, setUser] = useState(null);
   const { userId } = useParams();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");

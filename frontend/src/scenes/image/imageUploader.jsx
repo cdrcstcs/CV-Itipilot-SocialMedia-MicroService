@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 export const ImageUploader = ({ onImageUpload }) => {
+    console.log('hello');
+
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
 

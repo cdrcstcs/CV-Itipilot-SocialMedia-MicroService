@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "state";
 import { useAuthContext } from "scenes/context/UserContext";
 const Friend = ({ friendId, longtitude, latitude }) => {
+  // console.log('hello');
   const navigate = useNavigate();
   const {userDataFetch} = useAuthContext();
   const _id = userDataFetch._id;
@@ -23,16 +24,15 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
-  const [friendName, setFriendName] = useState("");
-  const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
-  const hiddenLinkRef = useRef(null);
+  const [friend, setFriend] = useState("");
+  const isFriend = Array.isArray(friends[_id]) && friends[_id].find((friend) => friend._id === friendId);
+  // const hiddenLinkRef = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchFriendDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/users/${friendId}`);
-        const { name } = response.data;
-        setFriendName(name);
+        const response = await axios.get(`http://localhost:3000/users/others/${friendId}`);
+        setFriend(response.data);
       } catch (error) {
         console.error("Error fetching friend details:", error);
       }
@@ -60,14 +60,17 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <UserImage size="55px" />
+        <UserImage imageId={friend.imageId} size="55px" />
         <Box
+
           onClick={() => {
             navigate(`/profile/${friendId}`);
             navigate(0);
           }}
+            style={{ cursor: "pointer" }}
+
         >
-          <Typography color={main}>{friendName}</Typography>
+          <Typography color={main}>{friend.name}</Typography>
           {/* {longtitude? 
           <Typography
             variant="body2"

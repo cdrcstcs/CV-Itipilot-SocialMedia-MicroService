@@ -21,6 +21,8 @@ const PostWidget = ({
   imageId,
   likes,
 }) => {
+  // console.log('hello');
+
   const dispatch = useDispatch();
   const {userDataFetch} = useAuthContext();
   const loggedInUserId = userDataFetch._id;
@@ -31,7 +33,7 @@ const PostWidget = ({
   const primary = palette.primary.main;
   const patchLike = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/posts/${postId}/like`,{ userId: loggedInUserId });
+      const response = await axios.patch(`http://localhost:3000/posts/${postId}/like`);
       dispatch(setPost({ post: response.data }));
     } catch (error) {
       console.error("Error liking post:", error);
