@@ -1,14 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
-  friends: [],
+  friends: {}, // Initialize friends as an object
   posts: [],
 };
+
 export const authSlice = createSlice({
   name: "state",
   initialState,
   reducers: {
     setFriends: (state, action) => {
-      state.friends = action.payload.friends;
+      const { userId, friends } = action.payload;
+      state.friends[userId] = friends; // Update friends for the specific userId
     },
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
@@ -22,5 +25,6 @@ export const authSlice = createSlice({
     },
   },
 });
+
 export const { setFriends, setPosts, setPost } = authSlice.actions;
 export default authSlice.reducer;

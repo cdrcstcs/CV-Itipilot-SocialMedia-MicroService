@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const getUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/users/${userId}`);
+      const response = await axios.get(`http://localhost:3000/users/others/${userId}`);
       setUser(response.data);
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -43,7 +43,7 @@ const ProfilePage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget longtitude={user.longtitude} latitude={user.latitude}/>
+          {/* <MyPostWidget longtitude={user.longtitude} latitude={user.latitude}/> */}
           <Box m="2rem 0" />
           <PostsWidget userId={userId} isProfile />
         </Box>

@@ -27,14 +27,14 @@ const UserWidget = ({user}) => {
     longtitude,
     latitude,
   } = user;
-  const hiddenLinkRef = useRef(null);
-  const handleLocationClick = () => {
-    hiddenLinkRef.current.click();
-  };
-  const replaceHistory = (url) => {
-    window.history.replaceState({}, document.title, url);
-  };
-  const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
+  // const hiddenLinkRef = useRef(null);
+  // const handleLocationClick = () => {
+  //   hiddenLinkRef.current.click();
+  // };
+  // const replaceHistory = (url) => {
+  //   window.history.replaceState({}, document.title, url);
+  // };
+  // const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <WidgetWrapper>
       <FlexBetween
@@ -65,7 +65,7 @@ const UserWidget = ({user}) => {
       </FlexBetween>
       <Divider />
       <Box p="1rem 0">
-        <Box
+        {/* <Box
           display="flex"
           alignItems="center"
           gap="1rem"
@@ -84,7 +84,7 @@ const UserWidget = ({user}) => {
             Coordinates: {latitude}, {longtitude} (Click to View)
             <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           </Typography> : null}        
-        </Box>
+        </Box> */}
         <Box
           display="flex"
           alignItems="center"

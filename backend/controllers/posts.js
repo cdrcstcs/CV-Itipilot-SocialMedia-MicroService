@@ -2,20 +2,18 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 
 export const createPost = async (req, res) => {
-  const { userId, description, longtitude, latitude, imageId } = req.body;
-  
+  const { description, longtitude, latitude, imageId } = req.body;
+  const user = (await User.findOne());
   try {
-    if (!userId || !description) {
+    if (!description) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-
-    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     const newPost = new Post({
-      userId,
+      userId: user._id,
       description,
       longtitude,
       latitude,
@@ -23,7 +21,6 @@ export const createPost = async (req, res) => {
       userPicturePath: user.picturePath,
       likes: new Map(),
     });
-
     await newPost.save();
     const posts = await Post.find();
     res.status(200).json(posts);
@@ -31,7 +28,6 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 export const getFeedPosts = async (req, res) => {
   try {
     const posts = await Post.find();
@@ -45,7 +41,7 @@ export const getUserPosts = async (req, res) => {
     const { userId } = req.params;
 
     // Find all posts where userId matches
-    const posts = await Post.find({ userId });
+    const posts = await Post.find({ userId: userId });
 
     // Return the posts as JSON response
     res.status(200).json(posts);
@@ -57,20 +53,19 @@ export const getUserPosts = async (req, res) => {
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId } = req.body;
+    // const { userId } = req.body;
 
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-
-    const isLiked = post.likes.get(userId);
+    const user = await User.findOne()
+    const isLiked = post.likes.get(user._id);
     if (isLiked) {
-      post.likes.delete(userId);
+      post.likes.delete(user._id);
     } else {
-      post.likes.set(userId, true);
+      post.likes.set(user._id, true);
     }
-
     const updatedPost = await Post.findByIdAndUpdate(
       id,
       { likes: post.likes },

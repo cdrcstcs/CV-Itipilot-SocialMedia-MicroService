@@ -14,7 +14,8 @@ const FriendListWidget = ({ userId }) => {
       const response = await axios.get(
         `http://localhost:3000/users/${userId}/friends`,
       );
-      dispatch(setFriends({ friends: response.data }));
+      friends[userId]=response.data;
+      dispatch(setFriends({ friends: friends }));
     } catch (error) {
       console.error("Error fetching friends:", error);
     }

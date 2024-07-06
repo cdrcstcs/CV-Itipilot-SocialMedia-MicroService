@@ -41,19 +41,22 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   }, [friendId]);
   const patchFriend = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/users/${_id}/${friendId}`, {});
-      dispatch(setFriends({ friends: response.data }));
+      const response = await axios.patch(`http://localhost:3000/users/${friendId}`, {});
+      const updatedFriend = response.data;
+
+    // Update Redux state using immer.js (enabled by Redux Toolkit)
+      dispatch(setFriends({ userId: _id, friends: updatedFriend }));
     } catch (error) {
       console.error("Error patching friend:", error);
     }
   };
-  const handleLocationClick = () => {
-    hiddenLinkRef.current.click();
-  };
-  const replaceHistory = (url) => {
-    window.history.replaceState({}, document.title, url);
-  };
-  const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
+  // const handleLocationClick = () => {
+  //   hiddenLinkRef.current.click();
+  // };
+  // const replaceHistory = (url) => {
+  //   window.history.replaceState({}, document.title, url);
+  // };
+  // const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
@@ -65,7 +68,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
           }}
         >
           <Typography color={main}>{friendName}</Typography>
-          {longtitude? 
+          {/* {longtitude? 
           <Typography
             variant="body2"
             color="primary"
@@ -79,7 +82,7 @@ const Friend = ({ friendId, longtitude, latitude }) => {
             <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
           </Typography>
           : null
-          }
+          } */}
         </Box>
       </FlexBetween>
       {friendId==_id? null :
