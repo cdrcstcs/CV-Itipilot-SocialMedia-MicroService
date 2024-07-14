@@ -9,7 +9,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const [posts, setPostsState] = useState([]);
   const getPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/posts");
+      const response = await axios.get(`http://localhost:3000/posts`);
       dispatch(setPosts({ posts: response.data }));
       setPostsState(response.data);
     } catch (error) {

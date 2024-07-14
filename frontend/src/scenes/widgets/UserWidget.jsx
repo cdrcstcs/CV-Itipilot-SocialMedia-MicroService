@@ -4,7 +4,6 @@ import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
 import {
   ManageAccountsOutlined,
   LocationOnOutlined,
@@ -29,14 +28,6 @@ const UserWidget = ({user}) => {
     longtitude,
     latitude,
   } = user;
-  // const hiddenLinkRef = useRef(null);
-  // const handleLocationClick = () => {
-  //   hiddenLinkRef.current.click();
-  // };
-  // const replaceHistory = (url) => {
-  //   window.history.replaceState({}, document.title, url);
-  // };
-  // const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <WidgetWrapper>
       <FlexBetween
@@ -67,7 +58,7 @@ const UserWidget = ({user}) => {
       </FlexBetween>
       <Divider />
       <Box p="1rem 0">
-        {/* <Box
+        <Box
           display="flex"
           alignItems="center"
           gap="1rem"
@@ -77,16 +68,10 @@ const UserWidget = ({user}) => {
           {longtitude? <Typography
             variant="body2"
             color="primary"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              handleLocationClick();
-              replaceHistory(window.location.href);
-          }}
           >
-            Coordinates: {latitude}, {longtitude} (Click to View)
-            <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
+            Coordinates: {latitude}, {longtitude}
           </Typography> : null}        
-        </Box> */}
+        </Box>
         <Box
           display="flex"
           alignItems="center"

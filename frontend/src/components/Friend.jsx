@@ -5,17 +5,15 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { PersonAddOutlined, PersonRemoveOutlined, LocationOnOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "state";
 import { useAuthContext } from "scenes/context/UserContext";
 const Friend = ({ friendId, longtitude, latitude }) => {
-  // console.log('hello');
   const navigate = useNavigate();
   const {userDataFetch} = useAuthContext();
   const _id = userDataFetch._id;
@@ -26,7 +24,6 @@ const Friend = ({ friendId, longtitude, latitude }) => {
   const main = palette.neutral.main;
   const [friend, setFriend] = useState("");
   const isFriend = Array.isArray(friends[_id]) && friends[_id].find((friend) => friend._id === friendId);
-  // const hiddenLinkRef = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchFriendDetails = async () => {
@@ -43,20 +40,11 @@ const Friend = ({ friendId, longtitude, latitude }) => {
     try {
       const response = await axios.patch(`http://localhost:3000/users/${friendId}`, {});
       const updatedFriend = response.data;
-
-    // Update Redux state using immer.js (enabled by Redux Toolkit)
       dispatch(setFriends({ userId: _id, friends: updatedFriend }));
     } catch (error) {
       console.error("Error patching friend:", error);
     }
   };
-  // const handleLocationClick = () => {
-  //   hiddenLinkRef.current.click();
-  // };
-  // const replaceHistory = (url) => {
-  //   window.history.replaceState({}, document.title, url);
-  // };
-  // const urltomap = `http://localhost:5600/${longtitude}/${latitude}`;
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
@@ -71,21 +59,19 @@ const Friend = ({ friendId, longtitude, latitude }) => {
 
         >
           <Typography color={main}>{friend.name}</Typography>
-          {/* {longtitude? 
+          {longtitude? 
           <Typography
             variant="body2"
             color="primary"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              handleLocationClick();
-              replaceHistory(window.location.href);
-          }}
+            style={{ cursor: "pointer", display:'flex', alignItems:'center', justifyContent:'center' }}
           >
-            Coordinates: {latitude}, {longtitude} (Click to View)
-            <a href={urltomap} ref={hiddenLinkRef} style={{ display: 'none' }}>Hidden Link</a>
+            <LocationOnOutlined fontSize="large" sx={{ color: main }} />
+            <div>
+              Coordinates: {latitude}, {longtitude}
+            </div>
           </Typography>
           : null
-          } */}
+          }
         </Box>
       </FlexBetween>
       {friendId==_id? null :

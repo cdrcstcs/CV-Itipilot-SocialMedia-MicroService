@@ -10,7 +10,7 @@ export const ImageUploader = ({ onImageUpload }) => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:3000/upload', formData);
+            const response = await axios.post(`http://localhost:3000/upload`, formData);
             if (response.data && response.data.image._id) {
                 onImageUpload(response.data.image._id);
             }

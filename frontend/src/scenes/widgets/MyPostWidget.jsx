@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { setPosts } from "state";
 import { SingleImage } from "scenes/image/imagePage";
 const MyPostWidget = ({ longtitude, latitude }) => {
-  console.log('hello')
   const dispatch = useDispatch();
   const [post, setPost] = useState("");
   const [postimageid, setpostimageid] = useState(null);
